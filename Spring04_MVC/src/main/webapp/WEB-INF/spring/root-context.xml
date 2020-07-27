@@ -4,5 +4,14 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
+	<!-- 어디서나 참조가 가능해야하는 Bean들을 root-context.xml 에 등록 -->
+	
+	<!-- 1. PropertyPlaceholderConfigurer
+		 외부의 프로퍼티에 저장된 정보를 스프링 설정파일에서
+		 사용할 수 있도록 해주는 bean
+	 -->
+	
+
+		
 		
 </beans>
