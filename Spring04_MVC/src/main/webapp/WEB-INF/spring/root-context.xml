@@ -10,8 +10,40 @@
 		 외부의 프로퍼티에 저장된 정보를 스프링 설정파일에서
 		 사용할 수 있도록 해주는 bean
 	 -->
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<!-- classpath : src/main/java , src/main/resources -->
+				<value>classpath:/mybatis/db.properties</value>
+			</list>		
+		</property>
+	</bean>
 	
-
+	<!-- SqlSessionFactoryBean의 setDataSource메소드에 전달하기 위한 dataSource 타입의 객체를 생성  -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<!-- ${driver} : db.properties의 driver값 -->
+		<property name="driverClassName" value="${driver}"/>
+		<property name="url" value="${url}"/>
+		<property name="username" value="${username}"/>
+		<property name="password" value="${password}"/>
+	</bean>		
+	
+	<!-- sqlSessionFactoryBean을 등록 -->	
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="classpath:/mybatis/mybatis-config.xml"/>
+	</bean>	
+	
+	<!-- sqlSessionTemplate -->
+	<!--
+	 - sqlSessionTemplate 쓰는 이유
+		1. 멀티 쓰레드 환경에 안전하다 . bean으로 등록하여서 사용할 수 있다.
+		2. Spring의 트랜잭션 관리 기술과 연동하여 트랜잭션 관리를 Spring으로 할 수 있게 해준다.
+		3. mybatisException을 DataAccessException으로 바꿔준다.
+	 -->
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg ref="sqlSessionFactory" />
+	</bean>	
 		
 		
 </beans>

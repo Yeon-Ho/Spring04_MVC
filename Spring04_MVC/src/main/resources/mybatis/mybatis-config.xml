@@ -11,6 +11,16 @@
 	<settings>
 	<!-- DB컬럼명을 Java의 Camel표기법으로 자동 매핑 -->
 		<setting name="mapUnderscoreToCamelCase" value="true"/>
+        <setting name="jdbcTypeForNull" value="NULL" />
 	</settings>
+	
+	<typeAliases>
+			<typeAlias type="com.kh.welcome.member.model.vo.Member" alias="MEMBER"/>
+	</typeAliases>
+	
+	<mappers>
+		<mapper resource="/mybatis/mapper/MemberMapper.xml"/>
+	</mappers>
+	
 
 </configuration>

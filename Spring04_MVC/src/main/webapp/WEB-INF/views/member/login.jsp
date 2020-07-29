@@ -13,7 +13,7 @@
 <div class="wrap">
 	<div class="memberBox">
 		<div class="login">
-			<form action="<%=request.getContextPath()%>/member/loginimple.do" method="post">
+			<form action="<%=request.getContextPath()%>/member/loginimpl.do" method="post">
 				
 				<p>id</p>
 				<input class="login-text" type="text" name="id"/>
@@ -40,7 +40,6 @@ if(flg){
 	console.dir(document.querySelector('#checkMsg'));
 	document.querySelector('#checkMsg').textContent = '아이디 혹은 비밀번호를 확인 해주세요';
 }
-
 </script>
 </body>
 </html>
