@@ -16,10 +16,12 @@
 	
 	<typeAliases>
 			<typeAlias type="com.kh.welcome.member.model.vo.Member" alias="MEMBER"/>
+			<typeAlias type="com.kh.welcome.board.model.vo.Notice" alias="NOTICE"/>
 	</typeAliases>
 	
 	<mappers>
 		<mapper resource="/mybatis/mapper/MemberMapper.xml"/>
+		<mapper resource="/mybatis/mapper/noticeMapper.xml"/>
 	</mappers>
 	
 

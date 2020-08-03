@@ -13,7 +13,7 @@
 	<div class="memberBox">
 		<div class="join">
 		      <form 
-			       action="<%=request.getContextPath()%>/member/joinimpl.do"
+			       action="<%=request.getContextPath()%>/member/joinemailcheck.do"
 			       method="post"
 			       onsubmit="return validate();">
 			       	<span class="sector-title">회원가입</span>

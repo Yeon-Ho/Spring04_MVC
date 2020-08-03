@@ -1,5 +1,6 @@
 package com.kh.welcome.member.model.dao;
 
+import java.util.List;
 import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;

@@ -246,12 +246,16 @@ public class MemberController {
 	
 	//방법2 update로 회원탈퇴
 	@RequestMapping("/leave.do")
-	public String memberLeave(HttpSession session, Model model) {
+	public String memberLeave(HttpSession session, Model model ,HttpServletRequest req) {
 		Member member = (Member) session.getAttribute("logInInfo");
+		
 		
 		int res = memberService.updateMemberToLeave(member.getUserId());
 		
+		String urlPath = req.getServerName()+":"+req.getServerPort()+req.getContextPath();
+		
 		if(res > 0) {
+			memberService.updateMemberToLeaveMailSending(member,urlPath);
 			model.addAttribute("alertMsg" , "회원탈퇴하셨습니다.");
 			model.addAttribute("url", "login.do");
 			session.removeAttribute("logInInfo");
@@ -284,6 +288,26 @@ public class MemberController {
 		}
 		
 	}
-	
 	//----------------------------------------------------------------------------------------------------------------------------
+
+	//---------------------이메일------------------------------------------------------------------------------------------
+	
+	@RequestMapping("/joinemailcheck.do")
+	public ModelAndView joinEmailCheck(Member member , HttpServletRequest req) {
+		
+		ModelAndView mav = new ModelAndView();
+		String urlPath = req.getServerName()+":"+req.getServerPort()+req.getContextPath();
+		
+		memberService.mailSending(member, urlPath);
+		
+		mav.addObject("alertMsg", "이메일로 확인 메일이 발송 되었습니다.");
+		mav.addObject("url","login.do");
+		mav.setViewName("common/result");
+		
+		return mav;
+	}
+	
+
+
+
 }
