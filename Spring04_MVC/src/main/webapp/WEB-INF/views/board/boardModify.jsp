@@ -18,7 +18,7 @@
 	  <h2><span>*게시판</span></h2>
 	</div> 
 	<form  
-		action="<%= request.getContextPath() %>/notice/noticeupload.do" 
+		action="<%= request.getContextPath() %>/notice/noticeupdate.do" 
 		method="post" 
 		enctype="multipart/form-data"
 		style="left:15%; width:80%">
@@ -44,27 +44,23 @@
 	       	  <button style="color:white; text-align:center; font-size:1.5vw">전송</button>
 	   	    </div>
 		</div>
+		<input type="hidden" value="${data.notice.nIdx}" name="nIdx">
 	</form>
 	<script type="text/javascript">
 		function deleteFile(fIdx){
+
+			var xhr = new XMLHttpRequest();
 			
+			xhr.open("POST","<%= request.getContextPath()%>/notice/noticefiledelete.do");
+			xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+			xhr.send("fIdx="+fIdx);
 			
+			xhr.addEventListener('load',function(){
+				var data = xhr.response;
+				document.querySelector('#f'+fIdx).outerHTML= "";
+			})
 			
 		}
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 	</script>
 </body>
 </html>

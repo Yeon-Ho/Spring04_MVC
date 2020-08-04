@@ -1,14 +1,25 @@
 package com.kh.welcome.board.controller;
 
+import java.awt.image.BufferedImage;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -79,7 +90,7 @@ public class NoticeController {
 		
 		
 		String root = session.getServletContext().getRealPath("/");
-		Member sessionMember = (Member) session.getAttribute("logInfo");
+		Member sessionMember = (Member) session.getAttribute("logInInfo");
 		
 		//로그인한 회원이라면
 		if(sessionMember != null) {
@@ -137,5 +148,112 @@ public class NoticeController {
 		
 		return mav;
 	}
+	
+	//------------------------------------------------------------------------------------------------------------
+//	@RequestMapping("notice/noticedownload.do")
+//	public void noticeDownload(
+//			//response header 지정을 위한 response
+//			HttpServletResponse resp,
+//			//파일경로 지정을 위한 session
+//			HttpSession session,
+//			//사용자가 올린 파일 이름
+//			String ofname,
+//			//서버에 저장된 파일 이름
+//			String rfname
+//			) {
+//		
+//		String readFolder = session.getServletContext().getRealPath("/resources/upload");
+//		
+//		//file 객체 생성
+//		File downFile = new File(readFolder + "/"+rfname);
+//		
+//		OutputStream downOut = null;
+//		BufferedInputStream bis = null;
+//		
+//		
+//		try {
+//			//response header
+//			//Content-Disposition : 브라우저화면에 출력할지 , 다운받을 지 결정
+//			//attachment : download 받게끔 지정
+//			//filename : download 받을 때 파일명
+//			resp.setHeader("Content-Disposition", "attachment; filename=" + URLEncoder.encode(ofname,"UTF-8"));
+//
+//			//응답해야하는 대상과 연경되는 OutputStream
+//			downOut = resp.getOutputStream();
+//			
+//			//파일 읽어오기
+//			bis = new BufferedInputStream(new FileInputStream(downFile));
+//		
+//			int read = 0;
+//			while((read = bis.read()) != -1) {
+//				downOut.write(read);
+//				downOut.flush();
+//			}
+//			
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//	}
+//	
+	//------------------------------------------------------------------------------------------------------------
+	
+	//스프링으로 파일다운로드--------------------------------------------------------------------------------------
+	@RequestMapping("notice/noticedownload.do")
+	@ResponseBody
+	public FileSystemResource noticeDownload(
+			HttpServletResponse resp,
+			HttpSession session,
+			String ofname,
+			String rfname
+			) {
+		
+		String readFolder = session.getServletContext().getRealPath("/resources/upload");
+		
+		//FileSystemResource
+		FileSystemResource downFile = new FileSystemResource(readFolder+"/"+rfname);
+		
+		try {
+			resp.setHeader("Content-Disposition", "attachment; filename=" + URLEncoder.encode(ofname,"UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		return downFile;
+	}
+	
+	@RequestMapping("notice/noticemodify.do")
+	public ModelAndView noticeModify(int nIdx , String userId , HttpSession session ) {
+		ModelAndView mav = new ModelAndView();
+		
+		Map<String , Object> commandMap = noticeService.selectNoticeDetail(nIdx);
+		
+		mav.addObject("data",commandMap);
+		mav.setViewName("board/boardModify");
+		
+		return mav;
+	}
+	
+	@RequestMapping("notice/noticefiledelete.do")
+	@ResponseBody
+	public String noticeFileDelete(int fIdx) {
+		noticeService.deleteFile(fIdx);
+		return "";
+	}
+	
+	
+	@RequestMapping("notice/noticeupdate.do")
+	public ModelAndView noticeUpdate(@RequestParam List<MultipartFile> files , HttpSession session , Notice notice) {
+		ModelAndView mav = new ModelAndView();
+		
+		
+		String root = session.getServletContext().getRealPath("/");
+		int res = noticeService.updateNotice(notice, files , root);
+		
+		
+		
+		mav.setViewName("redirect:noticelist.do");
+		return mav;
+	}
+	
+	
 	
 }

@@ -73,6 +73,34 @@ public class NoticeService {
 		
 		return commandMap;
 	}
+
+	public int deleteFile(int fIdx) {
+	
+		String path = noticeDao.selectFileSavePath(fIdx);
+		FileUtil fu = new FileUtil();
+		fu.deleteFile(path);
+		
+		return noticeDao.deleteFile(fIdx);
+	}
+
+
+	public int updateNotice(Notice notice, List<MultipartFile> files, String root) {
+
+		int result = noticeDao.updateNotice(notice);
+		int nIdx = notice.getnIdx();
+				
+		if(!(files.size() == 1 && files.get(0).getOriginalFilename().equals(""))) {
+			
+			//파일업로드를 위해 FileUtil.fileUpload() 호출
+			List<Map<String , String>> fileData = new FileUtil().filUpload(files, root);
+
+			for (Map<String, String> f : fileData) {
+				noticeDao.updateInsertFile(f ,nIdx);
+			}
+		}
+		return result;
+	}
+
 	
 	
 	

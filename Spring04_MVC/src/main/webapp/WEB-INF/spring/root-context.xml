@@ -50,7 +50,7 @@
 		<property name="host" value="smtp.naver.com" />
 		<property name="port" value="465" />
 		<property name="username" value="fksor12365@naver.com" />
-		<property name="password" value="wkddusgh!12" />
+		<property name="password" value="saqwdqwiohjdioqwhdoiqwhdioqwhdoiqwhdoiqwhdoiqahwdoiqwhdioqwhdoiqwhdioqwhdioho" />
 		<property name="javaMailProperties" >
 			<props>
 				<prop key="mail.transport.protocol">smtp</prop>

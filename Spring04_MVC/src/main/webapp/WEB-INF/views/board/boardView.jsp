@@ -42,7 +42,7 @@
           <button style="color:white" onclick="submitData('noticedelete.do?nIdx=${data.notice.nIdx}&userId=${data.notice.userId}')"><span>삭제</span></button>
         </div>
         <div class="btn_section">
-          <button style="color:white" onclick="submitData('noticeModify.do?nIdx=${data.notice.nIdx}&userId=${data.notice.userId}')"><span>수정</span></button>
+          <button style="color:white" onclick="submitData('noticemodify.do?nIdx=${data.notice.nIdx}&userId=${data.notice.userId}')"><span>수정</span></button>
         </div>
         </c:if>
         <input type="hidden" name="pwVal" id="pwVal"/>
@@ -56,11 +56,11 @@
    } 
    
    function downloadFile(ofname, rfname){
-//        location.href = "noticedownload.do?"
-//             +"ofname="+ofname
-//             +"&rfname="+rfname
+       location.href = "noticedownload.do?"
+            +"ofname="+ofname
+            +"&rfname="+rfname
             
-     location.href = "<%=request.getContextPath()%>/resources/upload/"+rfname; 
+<%--      location.href = "<%=request.getContextPath()%>/resources/upload/"+rfname;  --%>
   
   }
 

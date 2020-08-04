@@ -17,7 +17,7 @@
 			<c:if test="${logInInfo != null}">
 			<div class="top_user">
 				<a class="top_user-join" href="<%=request.getContextPath()%>/member/logout.do">Logout</a>
-				<a class="top_user-login" href="<%=request.getContextPath()%>/mypage/mypage.do">MyPage</a>
+				<a class="top_user-login" href="<%=request.getContextPath()%>/member/mypage.do">MyPage</a>
 			</div>
 			</c:if>
  		</div>
